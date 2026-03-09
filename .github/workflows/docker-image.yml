@@ -1,4 +1,4 @@
-name: CI-CD
+name: CI - Tests TaskManager
 
 on:
   push:
@@ -16,26 +16,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    services:
-      mysql:
-        image: mysql:8
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: taskmanager_db
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
-
     steps:
 
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Java 17
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -46,14 +32,6 @@ jobs:
         with:
           path: ~/.m2
           key: maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            maven-
-
-      - name: Install dependencies
-        run: mvn -B clean install -DskipTests
 
       - name: Run tests
-        run: mvn test
-
-      - name: Generate test report
-        run: mvn surefire-report:report
+        run: mvn clean test

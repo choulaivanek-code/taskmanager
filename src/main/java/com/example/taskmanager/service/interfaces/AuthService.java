@@ -1,4 +1,4 @@
-package com.example.taskmanager.service.interafces;
+package com.example.taskmanager.service.interfaces;
 
 import com.example.taskmanager.dto.request.LoginRequest;
 import com.example.taskmanager.dto.request.RegisterRequest;
